@@ -1,5 +1,5 @@
 (function () {
-	'use strict';
+	const { __ } = wp.i18n;
 
 	function setButtonState(button, text, isSuccess) {
 		const original = button.getAttribute('data-original-text') || button.textContent;
@@ -59,16 +59,16 @@
 		event.preventDefault();
 		const url = button.getAttribute('data-url') || '';
 		if (!url) {
-			setButtonState(button, 'No URL', false);
+			setButtonState(button, __('No URL', 'learnpress-add-course-url'), false);
 			return;
 		}
 
 		copyText(url)
 			.then(function (success) {
-				setButtonState(button, success ? 'Copied!' : 'Copy failed', success);
+				setButtonState(button, success ? __('Copied!', 'learnpress-add-course-url') : __('Copy failed', 'learnpress-add-course-url'), success);
 			})
 			.catch(function () {
-				setButtonState(button, 'Copy failed', false);
+				setButtonState(button, __('Copy failed', 'learnpress-add-course-url'), false);
 			});
 	});
 })();

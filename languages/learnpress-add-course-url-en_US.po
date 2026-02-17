@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: LearnPress - Add Course via URL 4.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-17 20:01+0000\n"
+"PO-Revision-Date: 2026-02-17 20:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
+"X-Domain: learnpress-add-course-url\n"
+
+#: learnpress-add-course-url.php:93
+msgid "Checkout URL"
+msgstr "Checkout URL"
+
+#: learnpress-add-course-url.php:120
+msgid "Copy URL"
+msgstr "Copy URL"
+
+#: learnpress-add-course-url.php:124
+msgid "Use this link on landing pages or buttons."
+msgstr "Use this link on landing pages or buttons."
+
+#: assets/admin-copy.js:62
+msgid "No URL"
+msgstr "No URL"
+
+#: assets/admin-copy.js:68
+msgid "Copied!"
+msgstr "Copied!"
+
+#: assets/admin-copy.js:68
+#: assets/admin-copy.js:71
+msgid "Copy failed"
+msgstr "Copy failed"

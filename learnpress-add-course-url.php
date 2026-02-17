@@ -6,6 +6,7 @@
  * Author: artgana
  * Version: 4.0.0
  * Text Domain: learnpress-add-course-url
+ * Domain Path: /languages
  * Require_LP_Version: 4.0.0
  * Requires at least: 6.3
  * Requires PHP: 7.4
@@ -27,6 +28,14 @@ final class LP_Add_Course_URL_Plugin
 		add_action( 'template_redirect', [ $this, 'handle_add_course_request' ] );
 		add_action( 'add_meta_boxes', [ $this, 'register_metabox' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
+		// Note: textdomain is loaded via a top-level hook, not here, because this class is bootstrapped on 'learn-press/ready'.
+	}
+
+	/**
+	 * Load textdomain
+	 */
+	public function load_textdomain(): void {
+		load_plugin_textdomain( 'learnpress-add-course-url', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	/**
@@ -82,7 +91,7 @@ final class LP_Add_Course_URL_Plugin
 	public function register_metabox(): void {
 		add_meta_box(
 			'lp_add_course_checkout_url',
-			'Checkout URL',
+			__( 'Checkout URL', 'learnpress-add-course-url' ),
 			[ $this, 'render_metabox' ],
 			'lp_course',
 			'side',
@@ -109,11 +118,11 @@ final class LP_Add_Course_URL_Plugin
 				data-url="<?php echo esc_attr( $url ); ?>"
 				style="margin-top:6px;width:100%;"
 			>
-				Copy URL
+				<?php esc_html_e( 'Copy URL', 'learnpress-add-course-url' ); ?>
 			</button>
 
 			<p style="margin-top:6px;font-size:12px;color:#666;">
-				Use this link on landing pages or buttons.
+				<?php esc_html_e( 'Use this link on landing pages or buttons.', 'learnpress-add-course-url' ); ?>
 			</p>
 		</div>
 		<?php
@@ -148,12 +157,21 @@ final class LP_Add_Course_URL_Plugin
 		wp_enqueue_script(
 			'lp-add-course-admin-copy',
 			plugin_dir_url( __FILE__ ) . $script_rel_path,
-			[],
+			[ 'wp-i18n' ],
 			(string) filemtime( plugin_dir_path( __FILE__ ) . $script_rel_path ),
 			true
 		);
+
+		wp_set_script_translations( 'lp-add-course-admin-copy', 'learnpress-add-course-url', plugin_dir_path( __FILE__ ) . 'languages' );
 	}
 }
+
+/**
+ * Load translations early enough regardless of LearnPress readiness.
+ */
+add_action( 'plugins_loaded', static function () {
+	load_plugin_textdomain( 'learnpress-add-course-url', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+});
 
 /**
  * Bootstrap
