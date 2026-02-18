@@ -19,9 +19,26 @@ defined('ABSPATH') || exit;
 
 final class LP_Add_Course_URL_Plugin
 {
+	/**
+	 * @var LP_Add_Course_URL_Plugin
+	 */
+	protected static $instance = null;
 
 	private const QUERY_ARG = 'add-course';
 	private const REDIRECT_ARG = 'redirect';
+
+	/**
+	 * Instance pattern.
+	 *
+	 * @return LP_Add_Course_URL_Plugin
+	 */
+	public static function instance(): self
+	{
+		if (is_null(self::$instance)) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
 	public function init(): void
 	{
@@ -179,5 +196,5 @@ add_action('plugins_loaded', static function () {
  * Bootstrap
  */
 add_action('learn-press/ready', static function () {
-	new LP_Add_Course_URL_Plugin()->init();
+	LP_Add_Course_URL_Plugin::instance()->init();
 });
