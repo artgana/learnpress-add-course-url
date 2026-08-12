@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/artgana/learnpress-add-course-url
  * Description: WooCommerce-style add-to-cart for LearnPress
  * Author: artgana
- * Version: 4.0.0
+ * Version: 4.1.0
  * Text Domain: learnpress-add-course-url
  * Domain Path: /languages
  * Require_LP_Version: 4.0.0
@@ -46,15 +46,8 @@ final class LP_Add_Course_URL_Plugin
 		add_action('template_redirect', [$this, 'handle_add_course_request']);
 		add_action('add_meta_boxes', [$this, 'register_metabox']);
 		add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
-		// Note: textdomain is loaded via a top-level hook, not here, because this class is bootstrapped on 'learn-press/ready'.
-	}
-
-	/**
-	 * Load textdomain
-	 */
-	public function load_textdomain(): void
-	{
-		load_plugin_textdomain('learnpress-add-course-url', false, dirname(plugin_basename(__FILE__)) . '/languages');
+		// Note: textdomain is loaded via a top-level 'plugins_loaded' hook (below), not here,
+		// because this class isn't bootstrapped until the later 'learn-press/ready' hook.
 	}
 
 	/**
@@ -88,7 +81,9 @@ final class LP_Add_Course_URL_Plugin
 
 	private function is_valid_course(int $course_id): bool
 	{
-		return $course_id > 0 && get_post_type($course_id) === 'lp_course';
+		return $course_id > 0
+			&& get_post_type($course_id) === 'lp_course'
+			&& get_post_status($course_id) === 'publish';
 	}
 
 	private function is_user_already_enrolled(int $course_id): bool
@@ -130,8 +125,7 @@ final class LP_Add_Course_URL_Plugin
 		$url = $this->build_add_course_url($post->ID);
 		?>
 		<div class="lp-add-course-url-box">
-			<input type="text" class="widefat lp-add-course-url-input" readonly value="<?php echo esc_attr($url); ?>"
-				onclick="this.select();" />
+			<input type="text" class="widefat lp-add-course-url-input" readonly value="<?php echo esc_attr($url); ?>" />
 
 			<button type="button" class="button lp-copy-course-url" data-url="<?php echo esc_attr($url); ?>"
 				style="margin-top:6px;width:100%;">

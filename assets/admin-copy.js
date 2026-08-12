@@ -51,6 +51,12 @@
 	}
 
 	document.addEventListener('click', function (event) {
+		const input = event.target.closest('.lp-add-course-url-input');
+		if (input) {
+			input.select();
+			return;
+		}
+
 		const button = event.target.closest('.lp-copy-course-url');
 		if (!button) {
 			return;

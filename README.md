@@ -41,3 +41,17 @@ This is useful for:
 - Landing pages (buttons).
 - Email marketing campaigns.
 - Custom price tables or external sales pages.
+
+---
+
+## Changelog
+
+### 4.1.0
+
+- **Fix:** `?add-course=ID` links only checked the post type, not the post status, so a crafted link with the ID of a draft, private, or scheduled course would silently add it to the visitor's cart. Now requires the course to be `publish`ed.
+- **Cleanup:** removed an unused `load_textdomain()` method left over from a previous bootstrap approach; translations were already loading correctly via the top-level `plugins_loaded` hook.
+- **Hardening:** moved the URL field's `onclick="this.select()"` out of inline HTML and into the plugin's own enqueued script, so the admin metabox no longer relies on inline JavaScript (friendlier to a strict Content-Security-Policy).
+
+### 4.0.0
+
+- Initial release: add-to-cart-via-URL for LearnPress courses, with an admin "Checkout URL" metabox and copy-to-clipboard button.
